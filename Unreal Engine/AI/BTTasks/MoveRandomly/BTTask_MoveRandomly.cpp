@@ -16,11 +16,11 @@ UBTTask_MoveRandomly::UBTTask_MoveRandomly(const FObjectInitializer& objectIniti
 
 EBTNodeResult::Type	UBTTask_MoveRandomly::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	EBTNodeResult::Type		NodeResult;
-	FBTMoveToTaskMemory		*MyMemory;
-	AAIController			*Controller;
-	UBlackboardComponent	*BlackboardComp;
-	ACharacter				*Character;
+	EBTNodeResult::Type			NodeResult;
+	FBTMoveToTaskMemory			*MyMemory;
+	AAIController				*Controller;
+	UBlackboardComponent		*BlackboardComp;
+	ACharacter					*Character;
 
 	NodeResult = EBTNodeResult::InProgress;
 	Controller = OwnerComp.GetAIOwner();
