@@ -1,6 +1,5 @@
 // Written by Diego Demarco *2022.
 
-
 #include "AI/BTTasks/Locomotion/BTTask_MoveRandomly.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/Character.h"
