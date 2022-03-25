@@ -6,9 +6,6 @@
 #include "BehaviorTree/Tasks/BTTask_MoveTo.h"
 #include "BTTask_MoveRandomly.generated.h"
 
-/**
- * 
- */
 USTRUCT() struct FLocationBounds
 {
 	GENERATED_BODY()
@@ -29,7 +26,7 @@ class AOS_PROTOTYPE_API UBTTask_MoveRandomly : public UBTTask_MoveTo
 
 public:
 	UBTTask_MoveRandomly(const FObjectInitializer& objectInitializer);
-	
+
 public:
 	//Random Location Sphere Radius
 	UPROPERTY(EditAnywhere, Category = "Random Location")
