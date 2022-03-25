@@ -61,7 +61,6 @@ public:
 	bool			bDisplayBounds = false;
 
 protected:
-
 	virtual		EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 	//Select Random Location Point
 	FVector		GetRandLocation(UBehaviorTreeComponent& OwnerComp);
