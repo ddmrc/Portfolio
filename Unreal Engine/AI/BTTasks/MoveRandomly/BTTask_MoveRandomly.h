@@ -79,8 +79,6 @@ protected:
 	float		GetLocationYNonSpawnPoint(float LocationY, ACharacter* Character);
 	//Check if Location in Bonds
 	bool		CheckBoundaries(float Location, float MaxBond, float MinBond);
-	//Check if Location is valid
-	float		GetDistanceVal(float Location, float CurrentLocation);
 	//Debug Options
 	void		DebugOptions(ACharacter* Character, FVector Location);
 };

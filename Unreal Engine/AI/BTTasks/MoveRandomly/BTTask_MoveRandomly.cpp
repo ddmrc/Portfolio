@@ -218,14 +218,3 @@ bool	UBTTask_MoveRandomly::CheckBoundaries(float Location, float MaxBond, float 
 		return (true);
 	return (false);
 }
-
-float	UBTTask_MoveRandomly::GetDistanceVal(float Location, float CurrentLocation)
-{
-	Location = FMath::Abs(Location);;
-	CurrentLocation = FMath::Abs(Location);
-	if (Location > CurrentLocation)
-		return (Location - CurrentLocation);
-	else if (Location < CurrentLocation)
-		return (CurrentLocation - Location);
-	return (0);
-}
