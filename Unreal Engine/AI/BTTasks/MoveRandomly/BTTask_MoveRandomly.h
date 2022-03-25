@@ -11,13 +11,13 @@ USTRUCT() struct FLocationBounds
 	GENERATED_BODY()
 
 	UPROPERTY()
-		float North;
+	float 		North;
 	UPROPERTY()
-		float South;
+	float 		South;
 	UPROPERTY()
-		float East;
+	float		East;
 	UPROPERTY()
-		float West;
+	float		West;
 };
 
 UCLASS()
