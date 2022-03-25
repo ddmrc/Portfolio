@@ -12,7 +12,6 @@
 USTRUCT() struct FLocationBounds
 {
 	GENERATED_BODY()
-
 	UPROPERTY()
 		float North;
 	UPROPERTY()
@@ -26,10 +25,9 @@ UCLASS()
 class AOS_PROTOTYPE_API UBTTask_MoveRandomly : public UBTTask_MoveTo
 {
 	GENERATED_BODY()
-
 public:
-
 	UBTTask_MoveRandomly(const FObjectInitializer& objectInitializer);
+
 public:
 	//Random Location Sphere Radius
 	UPROPERTY(EditAnywhere, Category = "Random Location")
@@ -63,7 +61,6 @@ public:
 	bool			bDisplayBounds = false;
 
 protected:
-
 	virtual		EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 	//Select Random Location Point
 	FVector		GetRandLocation(UBehaviorTreeComponent& OwnerComp);

@@ -218,3 +218,4 @@ bool	UBTTask_MoveRandomly::CheckBoundaries(float Location, float MaxBond, float 
 		return (true);
 	return (false);
 }
+
