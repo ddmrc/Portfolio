@@ -18,7 +18,7 @@ EBTNodeResult::Type	UBTTask_MoveToTarget::ExecuteTask(UBehaviorTreeComponent& Ow
 	EBTNodeResult::Type			NodeResult;
 	FBTMoveToTaskMemory			*MyMemory;
 	AAIController				*Controller;
-	UBlackboardComponent		*BlackboardComp;
+	UBlackboardComponent			*BlackboardComp;
 	ACharacter					*Character;
 
 	NodeResult = EBTNodeResult::InProgress;
@@ -60,7 +60,7 @@ FVector	UBTTask_MoveToTarget::GetMoveToLocations(AMoveToTarget* CurrentTarget, A
 
 void	UBTTask_MoveToTarget::GetAllTargets(ACharacter* Character)
 {
-	TArray<AActor*> Temp;
+	TArray<AActor*> 	Temp;
 
 	UGameplayStatics::GetAllActorsOfClass(Character->GetWorld(), AMoveToTarget::StaticClass(), Temp);
 	for (int i = 0; i < Temp.Num(); i++)
@@ -76,7 +76,7 @@ void	UBTTask_MoveToTarget::GetAllTargets(ACharacter* Character)
 
 void	UBTTask_MoveToTarget::ReorderTargets()
 {
-	AMoveToTarget* Temp;
+	AMoveToTarget*		Temp;
 
 	Temp = nullptr;
 	for (int i = 0; i < Targets.Num(); i++)
@@ -99,7 +99,7 @@ void	UBTTask_MoveToTarget::ReorderTargets()
 AMoveToTarget *UBTTask_MoveToTarget::GetCorrectTarget(ACharacter *Character)
 {
 	int32			TargetIndex;
-	AMoveToTarget	*CurrentTarget;
+	AMoveToTarget		*CurrentTarget;
 
 	TargetIndex = 0;
 	if (Targets.IsValidIndex(0))

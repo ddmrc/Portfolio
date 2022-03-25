@@ -8,7 +8,7 @@
 #include "BTTask_MoveToTarget.generated.h"
 
 UCLASS()
-class AOS_PROTOTYPE_API UBTTask_MoveToTarget : public UBTTask_MoveTo
+class PORTFOLIO_API UBTTask_MoveToTarget : public UBTTask_MoveTo
 {
 	GENERATED_BODY()
 public:
@@ -21,9 +21,9 @@ public:
 	//Key for BlackBoard
 	FVector							MoveToLocation = FVector::ZeroVector;
 	//TArray For Targets
-	TArray <AMoveToTarget*>			Targets;
+	TArray <AMoveToTarget*>					Targets;
 	//Focused Targer
-	AMoveToTarget					*Target;
+	AMoveToTarget						*Target;
 
 protected:
 	virtual	EBTNodeResult::Type		ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
@@ -34,7 +34,7 @@ protected:
 	//Reorder Targets Arr
 	void							ReorderTargets();
 	//Get Focus Target
-	AMoveToTarget					*GetCorrectTarget(ACharacter *Character);
+	AMoveToTarget						*GetCorrectTarget(ACharacter *Character);
 	//Reset MoveTo Cycle
 	void							ResetTargets(ACharacter *Character);
 };
