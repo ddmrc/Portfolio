@@ -33,10 +33,10 @@ int	ft_get_len(int *is_readed, char str_c[1000], char *c, int f_desc)
 int	ft_read_first_line(int *lines, char signs[3], int f_desc)
 {
 	int		i[2];
-	char	c;
+	char		c;
 	int		i_sign;
 	int		is_readed;
-	char	str_c[1000];
+	char		str_c[1000];
 
 	i[0] = ft_get_len(&is_readed, str_c, &c, f_desc);
 	i[1] = 0;
@@ -58,8 +58,8 @@ char	*ft_read_file(char *path, int *lines, int *columns, char signs[3])
 {
 	int		file_descriptor;
 	int		is_readed;
-	char	c;
-	char	*str;
+	char		c;
+	char		*str;
 	int		index;
 
 	if (path[0] == '0')
