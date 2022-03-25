@@ -28,8 +28,8 @@ class AOS_PROTOTYPE_API UBTTask_MoveRandomly : public UBTTask_MoveTo
 	GENERATED_BODY()
 
 public:
-
 	UBTTask_MoveRandomly(const FObjectInitializer& objectInitializer);
+	
 public:
 	//Random Location Sphere Radius
 	UPROPERTY(EditAnywhere, Category = "Random Location")
@@ -49,7 +49,7 @@ public:
 	//Character Spawn Locations
 	FVector			SpawnLocation = FVector::ZeroVector;
 	//SpawnLocationBoundaries
-	FLocationBounds LocatBonds;
+	FLocationBounds 	LocatBonds;
 	//Display Move To Location Vector
 	UPROPERTY(EditAnywhere, Category = "Debug")
 	bool			bDisplayMoveToLocation = false;
@@ -94,3 +94,4 @@ protected:
 	//Debug Options
 	void		DebugOptions(ACharacter* Character, FVector Location);
 };
+

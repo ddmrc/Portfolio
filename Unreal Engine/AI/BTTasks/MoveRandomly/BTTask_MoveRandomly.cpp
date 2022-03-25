@@ -19,8 +19,8 @@ EBTNodeResult::Type	UBTTask_MoveRandomly::ExecuteTask(UBehaviorTreeComponent& Ow
 	EBTNodeResult::Type		NodeResult;
 	FBTMoveToTaskMemory		*MyMemory;
 	AAIController			*Controller;
-	UBlackboardComponent	*BlackboardComp;
-	ACharacter				*Character;
+	UBlackboardComponent		*BlackboardComp;
+	ACharacter			*Character;
 
 	NodeResult = EBTNodeResult::InProgress;
 	Controller = OwnerComp.GetAIOwner();
@@ -44,7 +44,7 @@ EBTNodeResult::Type	UBTTask_MoveRandomly::ExecuteTask(UBehaviorTreeComponent& Ow
 		NodeResult = PerformMoveTask(OwnerComp, NodeMemory);
 		MoveToLocation = FVector::ZeroVector;
 	}
-	
+
 	return (NodeResult);
 }
 
@@ -338,3 +338,4 @@ float	UBTTask_MoveRandomly::GetDistanceVal(float Location, float CurrentLocation
 		return (CurrentLocation - Location);
 	return (0);
 }
+
