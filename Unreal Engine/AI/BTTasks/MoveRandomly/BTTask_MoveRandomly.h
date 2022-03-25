@@ -1,13 +1,18 @@
 // Written by Diego Demarco *2022.
 
 #pragma once
+
 #include "CoreMinimal.h"
 #include "BehaviorTree/Tasks/BTTask_MoveTo.h"
 #include "BTTask_MoveRandomly.generated.h"
 
+/**
+ * 
+ */
 USTRUCT() struct FLocationBounds
 {
 	GENERATED_BODY()
+
 	UPROPERTY()
 		float North;
 	UPROPERTY()
@@ -17,14 +22,14 @@ USTRUCT() struct FLocationBounds
 	UPROPERTY()
 		float West;
 };
-
 UCLASS()
 class AOS_PROTOTYPE_API UBTTask_MoveRandomly : public UBTTask_MoveTo
 {
 	GENERATED_BODY()
-public:
-	UBTTask_MoveRandomly(const FObjectInitializer& objectInitializer);
 
+public:
+
+	UBTTask_MoveRandomly(const FObjectInitializer& objectInitializer);
 public:
 	//Random Location Sphere Radius
 	UPROPERTY(EditAnywhere, Category = "Random Location")
@@ -44,7 +49,7 @@ public:
 	//Character Spawn Locations
 	FVector			SpawnLocation = FVector::ZeroVector;
 	//SpawnLocationBoundaries
-	FLocationBounds		LocatBonds;
+	FLocationBounds LocatBonds;
 	//Display Move To Location Vector
 	UPROPERTY(EditAnywhere, Category = "Debug")
 	bool			bDisplayMoveToLocation = false;
@@ -58,6 +63,7 @@ public:
 	bool			bDisplayBounds = false;
 
 protected:
+
 	virtual		EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 	//Select Random Location Point
 	FVector		GetRandLocation(UBehaviorTreeComponent& OwnerComp);
@@ -72,7 +78,19 @@ protected:
 	//If bLocationOnSpawnPoint = false Get LocationY
 	float		GetLocationYNonSpawnPoint(float LocationY, ACharacter* Character);
 	//Check if Location in Bonds
-	bool		CheckBoundaries(float Location, float MaxBond, float MinBond);
+	bool		CheckBoundaries(float Location, float MaxBound, float MinBound);
+	//Check if Location in Bonds
+	float		AdjustLocBoundaries(float Location, float CurrentLocation, int32 Direction, char Axis);
+	//Verify Location with MinWalkDistance
+	float		VerifyLocMinWalk(float Location, float CurrentLocation);
+	//Set Bounds
+	float		SetBounds(char Axis, FString Bound);
+	//Location on Direction0
+	float		CoordOnDirection0(float Location, float CurrentLocation, float MaxBound, float MinBound);
+	//Location on Direction1
+	float		CoordOnDirection1(float Location, float CurrentLocation, float MaxBound, float MinBound);
+	//Check if Location is valid
+	float		GetDistanceVal(float Location, float CurrentLocation);
 	//Debug Options
 	void		DebugOptions(ACharacter* Character, FVector Location);
 };

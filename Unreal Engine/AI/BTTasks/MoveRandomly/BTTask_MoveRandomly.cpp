@@ -1,10 +1,12 @@
 // Written by Diego Demarco *2022.
 
+
 #include "AI/BTTasks/Locomotion/BTTask_MoveRandomly.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/Character.h"
 #include "DrawDebugHelpers.h"
 #include "AIController.h"
+
 
 UBTTask_MoveRandomly::UBTTask_MoveRandomly(const FObjectInitializer& objectInitializer)
 {
@@ -14,10 +16,10 @@ UBTTask_MoveRandomly::UBTTask_MoveRandomly(const FObjectInitializer& objectIniti
 
 EBTNodeResult::Type	UBTTask_MoveRandomly::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
 {
-	EBTNodeResult::Type			NodeResult;
-	FBTMoveToTaskMemory			*MyMemory;
-	AAIController				*Controller;
-	UBlackboardComponent			*BlackboardComp;
+	EBTNodeResult::Type		NodeResult;
+	FBTMoveToTaskMemory		*MyMemory;
+	AAIController			*Controller;
+	UBlackboardComponent	*BlackboardComp;
 	ACharacter				*Character;
 
 	NodeResult = EBTNodeResult::InProgress;
@@ -42,11 +44,7 @@ EBTNodeResult::Type	UBTTask_MoveRandomly::ExecuteTask(UBehaviorTreeComponent& Ow
 		NodeResult = PerformMoveTask(OwnerComp, NodeMemory);
 		MoveToLocation = FVector::ZeroVector;
 	}
-
-	if (NodeResult == EBTNodeResult::InProgress && bObserveBlackboardValue)
-	{
-		//Set customized logic here for approaching objects if needed
-	}
+	
 	return (NodeResult);
 }
 
@@ -68,16 +66,15 @@ FVector	UBTTask_MoveRandomly::GetRandLocation(UBehaviorTreeComponent& OwnerComp)
 		LocationZ = SpawnLocation.Z;
 		GetLocationBoundaries();
 	}
-
 	if (bLocationOnSpawnPoint)
 	{
-		LocationX = GetLocationXSpawnPoint(LocationX);
-		LocationY = GetLocationYSpawnPoint(LocationY);
+		LocationX = GetLocationXSpawnPoint(Character->GetActorLocation().X);
+		LocationY = GetLocationYSpawnPoint(Character->GetActorLocation().Y);
 	}
 	else
 	{
-		LocationX = GetLocationXNonSpawnPoint(LocationX, Character);
-		LocationY = GetLocationYNonSpawnPoint(LocationY, Character);
+		LocationX = GetLocationXNonSpawnPoint(Character->GetActorLocation().X, Character);
+		LocationY = GetLocationYNonSpawnPoint(Character->GetActorLocation().Y, Character);
 	}
 	LocationZ = Character->GetActorLocation().Z;
 
@@ -89,28 +86,19 @@ float	UBTTask_MoveRandomly::GetLocationXSpawnPoint(float LocationX)
 {
 	float		CurrentLocation;
 	int32		Direction;
-	int32		LoopSafeguard;
-	bool		bIsInRange;
 
 	CurrentLocation = LocationX;
-	LoopSafeguard = 0;
-	bIsInRange = false;
-	//Make sure conditions are met before submitting Coordinate
-	while (!bIsInRange || LoopSafeguard < 5000)
+	//Allows to alternate directions
+	Direction = FMath::RandRange(0, 1);
+	if (Direction == 0)
 	{
-		//Allows to alternate directions
-		Direction = FMath::RandRange(0, 1);
-		if (Direction == 0)
-		{
-			LocationX = SpawnLocation.X + FMath::RandRange(CurrentLocation - MinWalkOffset, -Radius);
-			bIsInRange = CheckBoundaries(LocationX, LocatBonds.North, LocatBonds.South);
-		}
-		else if (Direction == 1)
-		{
-			LocationX = SpawnLocation.X + FMath::RandRange(CurrentLocation + MinWalkOffset, Radius);
-			bIsInRange = CheckBoundaries(LocationX, LocatBonds.North, LocatBonds.South);
-		}
-		LoopSafeguard++;
+		LocationX = SpawnLocation.X + FMath::RandRange(MinWalkOffset, -Radius);
+		LocationX = AdjustLocBoundaries(LocationX, CurrentLocation, Direction, 'X');
+	}
+	else if (Direction == 1)
+	{
+		LocationX = SpawnLocation.X + FMath::RandRange(CurrentLocation + MinWalkOffset, Radius);
+		LocationX = AdjustLocBoundaries(LocationX, CurrentLocation, Direction, 'X');
 	}
 	return (LocationX);
 }
@@ -119,53 +107,60 @@ float	UBTTask_MoveRandomly::GetLocationYSpawnPoint(float LocationY)
 {
 	float		CurrentLocation;
 	int32		Direction;
-	int32		LoopSafeguard;
-	bool		bIsInRange;
 
 	CurrentLocation = LocationY;
-	LoopSafeguard = 01;
-	bIsInRange = false;
-	//Make sure conditions are met before submitting Coordinate
-	while (!bIsInRange || LoopSafeguard < 5000)
+	//Allows to alternate directions
+	Direction = FMath::RandRange(0, 1);
+	if (Direction == 0)
 	{
-		//Allows to alternate directions
-		Direction = FMath::RandRange(0, 1);
-		if (Direction == 0)
-		{
-			LocationY = SpawnLocation.Y + FMath::RandRange(MinWalkOffset, -Radius);
-			bIsInRange = CheckBoundaries(LocationY, LocatBonds.East, LocatBonds.West);
-		}
-		else if (Direction == 1)
-		{
-			LocationY = SpawnLocation.Y + FMath::RandRange(MinWalkOffset, Radius);
-			bIsInRange = CheckBoundaries(LocationY, LocatBonds.East, LocatBonds.West);
-		}
-		LoopSafeguard++;
+		LocationY = SpawnLocation.Y + FMath::RandRange(MinWalkOffset, -Radius);
+		LocationY = AdjustLocBoundaries(LocationY, CurrentLocation, Direction, 'Y');
+	}
+	else if (Direction == 1)
+	{
+		LocationY = SpawnLocation.Y + FMath::RandRange(MinWalkOffset, Radius);
+		LocationY = AdjustLocBoundaries(LocationY, CurrentLocation, Direction, 'Y');
 	}
 	return (LocationY);
 }
 
 float	UBTTask_MoveRandomly::GetLocationXNonSpawnPoint(float LocationX, ACharacter *Character)
 {
+	float	CurrentLocation;
 	float	Direction;
 
+	CurrentLocation = Character->GetActorLocation().X;
 	Direction = FMath::RandRange(0, 1);
 	if (Direction == 0)
-		LocationX = Character->GetActorLocation().X + FMath::RandRange(MinWalkOffset, -Radius);
+	{
+		LocationX = CurrentLocation + FMath::RandRange(MinWalkOffset, -Radius);
+		LocationX = CoordOnDirection0(LocationX, CurrentLocation, CurrentLocation + Radius, CurrentLocation - Radius);
+	}
 	else if (Direction == 1)
-		LocationX = Character->GetActorLocation().X + FMath::RandRange(MinWalkOffset, Radius);
+	{
+		LocationX = CurrentLocation + FMath::RandRange(MinWalkOffset, Radius);
+		LocationX = CoordOnDirection1(LocationX, CurrentLocation, CurrentLocation + Radius, CurrentLocation - Radius);
+	}
 	return (LocationX);
 }
 
 float	UBTTask_MoveRandomly::GetLocationYNonSpawnPoint(float LocationY, ACharacter* Character)
 {
+	float	CurrentLocation;
 	float	Direction;
 
+	CurrentLocation = Character->GetActorLocation().Y;
 	Direction = FMath::RandRange(0, 1);
 	if (Direction == 0)
+	{
 		LocationY = Character->GetActorLocation().Y + FMath::RandRange(MinWalkOffset, -Radius);
+		LocationY = CoordOnDirection0(LocationY, CurrentLocation, CurrentLocation + Radius, CurrentLocation - Radius);
+	}
 	else if (Direction == 1)
+	{
 		LocationY = Character->GetActorLocation().Y + FMath::RandRange(MinWalkOffset, Radius);
+		LocationY = CoordOnDirection1(LocationY, CurrentLocation, CurrentLocation + Radius, CurrentLocation - Radius);
+	}
 	return (LocationY);
 }
 
@@ -198,9 +193,9 @@ void	UBTTask_MoveRandomly::DebugOptions(ACharacter* Character, FVector Location)
 		DrawDebugDirectionalArrow(Character->GetWorld(), Character->GetActorLocation(), Location, 1000.f, FColor::Red, false, 2.f,
 								(uint8)0U, 20.f);
 	if (bDisplaySphereRadius && !bLocationOnSpawnPoint)
-		DrawDebugSphere(Character->GetWorld(), Character->GetActorLocation(), Radius, 32, FColor::Purple, false, 3.f);
+		DrawDebugSphere(Character->GetWorld(), Character->GetActorLocation(), Radius + 200.f, 32, FColor::Purple, false, 3.f);
 	if (bDisplaySphereRadius && bLocationOnSpawnPoint)
-		DrawDebugSphere(Character->GetWorld(), SpawnLocation, Radius, 32, FColor::Purple, false, 3.f);
+		DrawDebugSphere(Character->GetWorld(), SpawnLocation, Radius + 200.f, 32, FColor::Purple, false, 3.f);
 	if (bDisplayBounds)
 	{
 		FString Debug = FString::Printf(TEXT("BOUNDS: North %s, South %s, East %s, West %s"),
@@ -210,10 +205,136 @@ void	UBTTask_MoveRandomly::DebugOptions(ACharacter* Character, FVector Location)
 	}
 }
 
-bool	UBTTask_MoveRandomly::CheckBoundaries(float Location, float MaxBond, float MinBond)
+bool	UBTTask_MoveRandomly::CheckBoundaries(float Location, float MaxBound, float MinBound)
 {
-	if (Location >= MinBond && Location <= MaxBond)
+	if (Location >= MinBound && Location <= MaxBound)
 		return (true);
 	return (false);
 }
 
+float	UBTTask_MoveRandomly::AdjustLocBoundaries(float Location, float CurrentLocation, int32 Direction, char Axis)
+{
+	float		LocationOffset;
+	float		MaxBound;
+	float		MinBound;
+
+	LocationOffset = VerifyLocMinWalk(Location, CurrentLocation);
+	MaxBound = SetBounds(Axis, "Max");
+	MinBound = SetBounds(Axis, "Min");
+	if (LocationOffset < MinWalkOffset || !CheckBoundaries(Location, MaxBound, MinBound))
+	{
+		if (Direction == 0)
+			Location = CoordOnDirection0(Location, CurrentLocation, MaxBound, MinBound);
+		else if (Direction == 1)
+			Location = CoordOnDirection1(Location, CurrentLocation, MaxBound, MinBound);
+	}
+
+	if (bDisplayMoveToLocation)
+	{
+		FString Debug = FString::Printf(TEXT("Distance To Travel: %s || WalkMin = %s"), *FString::SanitizeFloat(VerifyLocMinWalk(Location, CurrentLocation)),
+			*FString::SanitizeFloat(MinWalkOffset));
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Orange, Debug);
+	}
+	return (Location);
+}
+
+float	UBTTask_MoveRandomly::CoordOnDirection0(float Location, float CurrentLocation, float MaxBound, float MinBound)
+{
+	float		LocationOffset;
+
+	LocationOffset = VerifyLocMinWalk(Location, CurrentLocation);
+	while (LocationOffset < MinWalkOffset)
+	{
+		Location = Location - MinWalkOffset;
+		LocationOffset = VerifyLocMinWalk(Location, CurrentLocation);
+		if (!CheckBoundaries(Location, MaxBound, MinBound))
+		{
+			Location = Location + MinWalkOffset;
+			break ;
+		}
+	}
+	while (LocationOffset < MinWalkOffset)
+	{
+		Location = Location + MinWalkOffset;
+		LocationOffset = VerifyLocMinWalk(Location, CurrentLocation);
+		if (!CheckBoundaries(Location, MaxBound, MinBound))
+			break ;
+	}
+	if (!CheckBoundaries(Location, MaxBound, MinBound))
+		Location = MinBound;
+	return (Location);
+}
+
+float	UBTTask_MoveRandomly::CoordOnDirection1(float Location, float CurrentLocation, float MaxBound, float MinBound)
+{
+	float		LocationOffset;
+
+	LocationOffset = VerifyLocMinWalk(Location, CurrentLocation);
+	while (LocationOffset < MinWalkOffset)
+	{
+		Location = Location + MinWalkOffset;
+		LocationOffset = VerifyLocMinWalk(Location, CurrentLocation);
+		if (!CheckBoundaries(Location, MaxBound, MinBound))
+		{
+			Location = Location - MinWalkOffset;
+			break ;
+		}
+
+	}
+	while (LocationOffset < MinWalkOffset)
+	{
+		Location = Location - MinWalkOffset;
+		LocationOffset = VerifyLocMinWalk(Location, CurrentLocation);
+		if (!CheckBoundaries(Location, MaxBound, MinBound))
+			break ;
+	}
+	if (!CheckBoundaries(Location, MaxBound, MinBound))
+		Location = MaxBound;
+	return (Location);
+}
+
+float	UBTTask_MoveRandomly::VerifyLocMinWalk(float Location, float CurrentLocation)
+{
+	float	RelLocation;
+	float	ReLCurrentLocation;
+	float	Difference;
+
+	RelLocation = FMath::Abs(Location);
+	ReLCurrentLocation = FMath::Abs(CurrentLocation);
+	Difference = 0;
+	if (RelLocation > ReLCurrentLocation)
+		Difference = RelLocation - ReLCurrentLocation;
+	else if (RelLocation < ReLCurrentLocation)
+		Difference = ReLCurrentLocation - RelLocation;
+	return (Difference);
+}
+
+float	UBTTask_MoveRandomly::SetBounds(char Axis, FString Bound)
+{
+	if (Axis == 'X')
+	{
+		if (Bound == "Max")
+			return (LocatBonds.North);
+		if (Bound == "Min")
+			return (LocatBonds.South);
+	}
+	else if (Axis == 'Y')
+	{
+		if (Bound == "Max")
+			return (LocatBonds.East);
+		if (Bound == "Min")
+			return (LocatBonds.West);
+	}
+	return (0.f);
+}
+
+float	UBTTask_MoveRandomly::GetDistanceVal(float Location, float CurrentLocation)
+{
+	Location = FMath::Abs(Location);;
+	CurrentLocation = FMath::Abs(Location);
+	if (Location > CurrentLocation)
+		return (Location - CurrentLocation);
+	else if (Location < CurrentLocation)
+		return (CurrentLocation - Location);
+	return (0);
+}
