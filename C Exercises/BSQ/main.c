@@ -22,10 +22,10 @@ int		ft_validate(char *path);
 
 void	ft_solve_bsq(char *path)
 {
-	char	*str;
+	char		*str;
 	int		*line_col;
-	char	signs[3];
-	char	**map;
+	char		signs[3];
+	char		**map;
 
 	line_col = malloc(sizeof(line_col) * 2);
 	line_col[0] = 0;
@@ -43,7 +43,7 @@ void	ft_solve_bsq(char *path)
 
 int	main(int argc, char **argv)
 {
-	int	index;
+	int		index;
 
 	index = 1;
 	if (argc == 1)
