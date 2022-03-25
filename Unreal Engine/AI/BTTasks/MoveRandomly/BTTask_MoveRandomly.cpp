@@ -19,8 +19,8 @@ EBTNodeResult::Type	UBTTask_MoveRandomly::ExecuteTask(UBehaviorTreeComponent& Ow
 	EBTNodeResult::Type				NodeResult;
 	FBTMoveToTaskMemory				*MyMemory;
 	AAIController					*Controller;
-	UBlackboardComponent			*BlackboardComp;
-	ACharacter						*Character;
+	UBlackboardComponent				*BlackboardComp;
+	ACharacter					*Character;
 
 	NodeResult = EBTNodeResult::InProgress;
 	Controller = OwnerComp.GetAIOwner();
