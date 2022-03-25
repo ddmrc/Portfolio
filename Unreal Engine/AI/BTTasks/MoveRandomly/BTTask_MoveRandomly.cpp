@@ -6,7 +6,6 @@
 #include "DrawDebugHelpers.h"
 #include "AIController.h"
 
-
 UBTTask_MoveRandomly::UBTTask_MoveRandomly(const FObjectInitializer& objectInitializer)
 {
 	NodeName = "MoveRandomly";
