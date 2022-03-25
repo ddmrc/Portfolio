@@ -16,8 +16,8 @@
 
 int		ft_power(int nb, int power);
 int		ft_sqrt(int nb);
-void	ft_print_map(char **map, int line_col[2], char signs[3]);
-void	ft_print_map_ints(int **map, int line_col[2]);
+void		ft_print_map(char **map, int line_col[2], char signs[3]);
+void		ft_print_map_ints(int **map, int line_col[2]);
 int		**ft_allocat_int_map(int line_col[2]);
 int		ft_fill_copy(int line_col[2], t_b_maps *b_maps);
 int		*ft_find_max_hor_address(int line_col[2], t_b_maps *b_maps, int max);
