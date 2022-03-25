@@ -19,6 +19,7 @@ USTRUCT() struct FLocationBounds
 	UPROPERTY()
 		float West;
 };
+
 UCLASS()
 class AOS_PROTOTYPE_API UBTTask_MoveRandomly : public UBTTask_MoveTo
 {
