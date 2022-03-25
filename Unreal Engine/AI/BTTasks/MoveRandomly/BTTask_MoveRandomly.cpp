@@ -102,7 +102,7 @@ float	UBTTask_MoveRandomly::GetLocationXSpawnPoint(float LocationX)
 		Direction = FMath::RandRange(0, 1);
 		if (Direction == 0)
 		{
-			LocationX = SpawnLocation.X + FMath::RandRange(CurrentLocation + MinWalkOffset, -Radius);
+			LocationX = SpawnLocation.X + FMath::RandRange(CurrentLocation - MinWalkOffset, -Radius);
 			bIsInRange = CheckBoundaries(LocationX, LocatBonds.North, LocatBonds.South);
 		}
 		else if (Direction == 1)
