@@ -22,7 +22,7 @@ int	ft_power(int nb, int power);
 int	ft_read_first_line_verify(int *lines, char signs[3], int f_desc)
 {
 	int		i[2];
-	char	c;
+	char		c;
 	int		i_sign;
 	int		is_readed;
 	char	str_c[1000];
@@ -80,7 +80,7 @@ int	ft_validate_length_line(char c, int index, int *col_index, int *columns)
 
 int	ft_read_file_ver(char signs[3], int *is_readed, int fd)
 {
-	char	c;
+	char		c;
 	int		columns;
 	int		col_index;
 	int		index;
@@ -111,7 +111,7 @@ int	ft_validate(char *path)
 	int		*line_col;
 	int		is_readed;
 	int		file_descriptor;
-	char	signs[3];
+	char		signs[3];
 
 	line_col = malloc(sizeof(line_col) * 2);
 	if (path[0] == '0')
