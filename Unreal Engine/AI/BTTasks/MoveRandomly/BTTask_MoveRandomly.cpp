@@ -36,7 +36,6 @@ EBTNodeResult::Type	UBTTask_MoveRandomly::ExecuteTask(UBehaviorTreeComponent& Ow
 		BlackboardComp->SetValueAsVector(FName(BB_KeyLocationName), MoveToLocation);
 	}
 
-	//On Task Finished
 	if (!MyMemory->bWaitingForPath)
 	{
 		NodeResult = PerformMoveTask(OwnerComp, NodeMemory);
