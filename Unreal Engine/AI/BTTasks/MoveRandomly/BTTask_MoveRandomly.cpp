@@ -1,12 +1,10 @@
 // Written by Diego Demarco *2022.
 
-
 #include "AI/BTTasks/Locomotion/BTTask_MoveRandomly.h"
 #include "BehaviorTree/BlackboardComponent.h"
 #include "GameFramework/Character.h"
 #include "DrawDebugHelpers.h"
 #include "AIController.h"
-
 
 UBTTask_MoveRandomly::UBTTask_MoveRandomly(const FObjectInitializer& objectInitializer)
 {

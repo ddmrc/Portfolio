@@ -1,14 +1,10 @@
 // Written by Diego Demarco *2022.
 
 #pragma once
-
 #include "CoreMinimal.h"
 #include "BehaviorTree/Tasks/BTTask_MoveTo.h"
 #include "BTTask_MoveRandomly.generated.h"
 
-/**
- * 
- */
 USTRUCT() struct FLocationBounds
 {
 	GENERATED_BODY()
@@ -21,6 +17,7 @@ USTRUCT() struct FLocationBounds
 	UPROPERTY()
 		float West;
 };
+
 UCLASS()
 class AOS_PROTOTYPE_API UBTTask_MoveRandomly : public UBTTask_MoveTo
 {
