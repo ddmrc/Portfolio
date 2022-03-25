@@ -44,7 +44,7 @@ public:
 	//Character Spawn Locations
 	FVector			SpawnLocation = FVector::ZeroVector;
 	//SpawnLocationBoundaries
-	FLocationBounds			LocatBonds;
+	FLocationBounds		LocatBonds;
 	//Display Move To Location Vector
 	UPROPERTY(EditAnywhere, Category = "Debug")
 	bool			bDisplayMoveToLocation = false;
