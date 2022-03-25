@@ -26,7 +26,7 @@ public:
 	AMoveToTarget						*Target;
 
 protected:
-	virtual	EBTNodeResult::Type			ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+	virtual	EBTNodeResult::Type				ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 	//Get Location From Focus Target
 	FVector							GetMoveToLocations(AMoveToTarget* Target, ACharacter* Character);
 	//Scan All Targets
