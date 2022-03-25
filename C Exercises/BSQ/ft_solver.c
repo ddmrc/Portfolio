@@ -115,7 +115,7 @@ void	ft_write_result(char **map, char signs[3], int *chosen_add, int max)
 
 void	ft_algorithm(char **map, int line_col[2], char signs[3])
 {
-	t_b_maps	b_maps;
+	t_b_maps		b_maps;
 	int			max;
 	int			*max_address_hor;
 	int			*max_address_vert;
