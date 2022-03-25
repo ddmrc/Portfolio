@@ -19,7 +19,7 @@ EBTNodeResult::Type	UBTTask_MoveToTarget::ExecuteTask(UBehaviorTreeComponent& Ow
 	FBTMoveToTaskMemory			*MyMemory;
 	AAIController				*Controller;
 	UBlackboardComponent			*BlackboardComp;
-	ACharacter					*Character;
+	ACharacter				*Character;
 
 	NodeResult = EBTNodeResult::InProgress;
 	Controller = OwnerComp.GetAIOwner();
