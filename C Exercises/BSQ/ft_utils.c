@@ -39,7 +39,7 @@ int	ft_sqrt(int nb)
 
 char	**ft_allocat_map(int line_col[2])
 {
-	char	**map;
+	char		**map;
 	int		index;
 
 	map = malloc(sizeof(map) * (line_col[0] + 1));
