@@ -17,6 +17,18 @@ void ASlidingDoor::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	SetTriggers();
+	SetDoor();
+
+	CurrentTime = 0.f;
+	TimeForAnimation = AnimationTime;
+	StartingPosition = InitialPosition;
+	FinalPosition = StartingPosition + FVector(0.f, 0.f, AmountToOpen);
+	DoorState = EDoorState::Closed;
+}
+
+void	ASlidingDoor::SetTriggers()
+{
 	if (!TriggerOne && !TriggerTwo)
 	{
 		TArray<UActorComponent*> Temp;
@@ -26,7 +38,10 @@ void ASlidingDoor::BeginPlay()
 		if (Temp.IsValidIndex(1))
 			TriggerTwo = Cast<UBoxComponent>(Temp[1]);
 	}
+}
 
+void	ASlidingDoor::SetDoor()
+{
 	if (!Door)
 	{
 		TArray<UActorComponent*> Temp;
@@ -34,12 +49,7 @@ void ASlidingDoor::BeginPlay()
 		if (Temp.IsValidIndex(0))
 			Door = Cast<UStaticMeshComponent>(Temp[0]);
 		InitialPosition = Door->GetComponentLocation();
-		StartingPosition = InitialPosition;
-		FinalPosition = StartingPosition + FVector(0.f, 0.f, AmountToOpen);
 	}
-	CurrentTime = 0.f;
-	TimeForAnimation = AnimationTime;
-	DoorState = EDoorState::Closed;
 }
 
 void ASlidingDoor::Tick(float DeltaTime)
