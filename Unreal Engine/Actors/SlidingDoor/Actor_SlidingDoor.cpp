@@ -99,7 +99,6 @@ bool	ASlidingDoor::OpenDoor(float DeltaTime)
 
 	if (DoorState != EDoorState::Opening)
 		DoorState = EDoorState::Opening;
-
 	Result = PerformAnimation(StartingPosition, FinalPosition, DeltaTime);
 	return (Result);
 }
@@ -125,7 +124,6 @@ bool	ASlidingDoor::CloseDoor(float DeltaTime)
 
 	if (DoorState != EDoorState::Closing)
 		DoorState = EDoorState::Closing;
-
 	Result = PerformAnimation(StartingPosition, FinalPosition, DeltaTime);
 	return (Result);
 }
