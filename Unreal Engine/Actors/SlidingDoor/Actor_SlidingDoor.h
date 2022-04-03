@@ -49,6 +49,8 @@ protected:
 	float						AnimationTime = 3.f;
 	//This is used internaly
 	float						TimeForAnimation;
+	
+	public:
 	// Called when the game starts or when spawned
 	virtual void					BeginPlay() override;
 	// Called every frame
