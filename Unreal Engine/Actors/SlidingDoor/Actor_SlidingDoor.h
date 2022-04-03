@@ -25,15 +25,14 @@ public:
 	ASlidingDoor();
 
 protected:
-
 	//Door State
 	EDoorState					DoorState;
 	//Open Close Trigger
-	class UBoxComponent			*TriggerOne = nullptr;
+	class UBoxComponent				*TriggerOne = nullptr;
 	//Open Close Trigger
-	class UBoxComponent			*TriggerTwo = nullptr;
+	class UBoxComponent				*TriggerTwo = nullptr;
 	//Door Mesh
-	class UStaticMeshComponent	*Door = nullptr;
+	class UStaticMeshComponent			*Door = nullptr;
 	//Actors Initial Location
 	FVector						InitialPosition = FVector::ZeroVector;
 	//Actor's Starting Location
@@ -51,9 +50,9 @@ protected:
 	//This is used internaly
 	float						TimeForAnimation;
 	// Called when the game starts or when spawned
-	virtual void				BeginPlay() override;
+	virtual void					BeginPlay() override;
 	// Called every frame
-	virtual void				Tick(float DeltaTime) override;
+	virtual void					Tick(float DeltaTime) override;
 	//Player Overlapping Trigger
 	bool						IsPlayerOverlappingTrigger();
 	//Open Door
@@ -63,5 +62,5 @@ protected:
 	//Get Time for Animation based on Location. Pos1 - Pos 2.
 	float						GetAnimationTime(FVector Pos1, FVector Pos2);
 	//Redefined deprecated GetComponentsByClass
-	TArray<UActorComponent*>	GetComponentsOfClass(TSubclassOf<UActorComponent> ComponentClass, bool bIncludeChildActors);
+	TArray<UActorComponent*>			GetComponentsOfClass(TSubclassOf<UActorComponent> ComponentClass, bool bIncludeChildActors);
 };
