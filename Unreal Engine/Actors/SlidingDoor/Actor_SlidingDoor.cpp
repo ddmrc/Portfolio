@@ -69,8 +69,7 @@ bool	ASlidingDoor::IsPlayerOverlappingTrigger()
 
 bool	ASlidingDoor::OpenDoor(float DeltaTime)
 {
-	float			AlphaTime;
-	FVector			CurrentLocation;
+	bool			Result;
 
 	if (!Door || DoorState == EDoorState::Open)
 		return (false);
@@ -91,22 +90,12 @@ bool	ASlidingDoor::OpenDoor(float DeltaTime)
 	if (DoorState != EDoorState::Opening)
 		DoorState = EDoorState::Opening;
 
-	CurrentTime += DeltaTime;
-	AlphaTime = FMath::Clamp(CurrentTime / TimeForAnimation, 0.0f, 1.0f);
-	CurrentLocation = FMath::Lerp(StartingPosition, FinalPosition, AlphaTime);
-	Door->SetWorldLocation(CurrentLocation);
-	if (Door->GetComponentLocation().Equals(FinalPosition, 10.f))
-	{
-		CurrentTime = 0.f;
-		DoorState = EDoorState::Open;
-		return (false);
-	}
-	return (true);
+	Result = PerformAnimation(StartingPosition, FinalPosition, DeltaTime);
+	return (Result);
 }
 bool	ASlidingDoor::CloseDoor(float DeltaTime)
 {
-	float			AlphaTime;
-	FVector			CurrentLocation;
+	bool			Result;
 
 	if (!Door || DoorState == EDoorState::Closed)
 		return (false);
@@ -127,17 +116,8 @@ bool	ASlidingDoor::CloseDoor(float DeltaTime)
 	if (DoorState != EDoorState::Closing)
 		DoorState = EDoorState::Closing;
 
-	CurrentTime += DeltaTime;
-	AlphaTime = FMath::Clamp(CurrentTime / TimeForAnimation, 0.0f, 1.0f);
-	CurrentLocation = FMath::Lerp(StartingPosition, FinalPosition, AlphaTime);
-	Door->SetWorldLocation(CurrentLocation);
-	if (Door->GetComponentLocation().Equals(FinalPosition, 10.f))
-	{
-		CurrentTime = 0.f;
-		DoorState = EDoorState::Closed;
-		return (false);
-	}
-	return (true);
+	Result = PerformAnimation(StartingPosition, FinalPosition, DeltaTime);
+	return (Result);
 }
 
 float	ASlidingDoor::GetAnimationTime(FVector Pos1, FVector Pos2)
@@ -151,6 +131,26 @@ float	ASlidingDoor::GetAnimationTime(FVector Pos1, FVector Pos2)
 		Result = AnimationTime / 2.f;
 	else if (Pos1.Z - Pos2.Z <= AmountToOpen / 1.2f)
 		Result = AnimationTime / 1.2f;
+	return (Result);
+}
+
+bool	ASlidingDoor::PerformAnimation(FVector Start, FVector Finish, float DeltaTime)
+{
+	bool		Result;
+	float		AlphaTime;
+	FVector		CurrentLocation;
+
+	Result = true;
+	CurrentTime += DeltaTime;
+	AlphaTime = FMath::Clamp(CurrentTime / TimeForAnimation, 0.0f, 1.0f);
+	CurrentLocation = FMath::Lerp(Start, Finish, AlphaTime);
+	Door->SetWorldLocation(CurrentLocation);
+	if (Door->GetComponentLocation().Equals(Finish, 10.f))
+	{
+		CurrentTime = 0.f;
+		DoorState = EDoorState::Closed;
+		Result = false;
+	}
 	return (Result);
 }
 
