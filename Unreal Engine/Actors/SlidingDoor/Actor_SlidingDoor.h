@@ -53,6 +53,10 @@ protected:
 	public:
 	// Called when the game starts or when spawned
 	virtual void					BeginPlay() override;
+	//Set Triggers
+	void						SetTriggers();
+	//Set Door
+	void						SetDoor();
 	// Called every frame
 	virtual void					Tick(float DeltaTime) override;
 	//Player Overlapping Trigger
