@@ -64,3 +64,4 @@ protected:
 	//Redefined deprecated GetComponentsByClass
 	TArray<UActorComponent*>			GetComponentsOfClass(TSubclassOf<UActorComponent> ComponentClass, bool bIncludeChildActors);
 };
+
