@@ -167,3 +167,4 @@ TArray<UActorComponent*>	ASlidingDoor::GetComponentsOfClass(TSubclassOf<UActorCo
 	}
 	return (Components);
 }
+
