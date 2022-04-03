@@ -61,6 +61,8 @@ protected:
 	bool						CloseDoor(float DeltaTime);
 	//Get Time for Animation based on Location. Pos1 - Pos 2.
 	float						GetAnimationTime(FVector Pos1, FVector Pos2);
+	//Perform Animation
+	bool						PerformAnimation(FVector Start, FVector Finish, float DeltaTime);
 	//Redefined deprecated GetComponentsByClass
 	TArray<UActorComponent*>			GetComponentsOfClass(TSubclassOf<UActorComponent> ComponentClass, bool bIncludeChildActors);
 };
